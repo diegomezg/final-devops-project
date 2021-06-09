@@ -26,7 +26,6 @@ steps:
     inlineScript: |
       az --version
       az account show
-      az login
 
 - script: cd infra
   displayName: 'Move to infra dir'
