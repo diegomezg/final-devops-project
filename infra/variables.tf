@@ -39,3 +39,9 @@ variable "os_disk_size_gb" {
   default     = 40
   type        = number
 }
+
+variable "resource_group_name" {
+  description = "Resource Group Name"
+  default     = "diego-gomez"
+  type        = string
+}
