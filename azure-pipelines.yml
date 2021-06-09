@@ -20,7 +20,7 @@ steps:
 - task: AzureCLI@2
   displayName: Azure CLI
   inputs:
-    azureSubscription: diego-gomez
+    azureSubscription: ServConnectionName
     scriptType: ps
     scriptLocation: inlineScript
     inlineScript: |
