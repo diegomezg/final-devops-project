@@ -34,5 +34,5 @@ steps:
   displayName: 'Tf version'
 
 - script: terraform init -backend-config=backend.tfconfig
-  workingDirectory: $(Pipeline.Workspace)/infra
+  workingDirectory: infra
   displayName: 'Tf init'
