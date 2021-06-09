@@ -1,6 +1,6 @@
 provider "azurerm" {
   features {}
-  skip_provider_registration=true
+  skip_provider_registration = true
 }
 
 terraform {
@@ -13,11 +13,11 @@ terraform {
 }
 
 
-module "resource_group" {
-  source              = "./modules/resource_group"
-  resource_group_name = "diego-gomez"
-  location            = var.location
-}
+# module "resource_group" {
+#   source              = "./modules/resource_group"
+#   resource_group_name = "diego-gomez"
+#   location            = var.location
+# }
 
 module "acr" {
   source              = "./modules/acr"
