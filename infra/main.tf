@@ -23,7 +23,7 @@ module "acr" {
   source              = "./modules/acr"
   prefix              = var.prefix
   location            = var.location
-  resource_group_name = module.resource_group.name
+  resource_group_name = "diego-gomez"
 }
 
 module "aks" {
@@ -35,7 +35,7 @@ module "aks" {
   node_count          = var.node_count
   vm_size             = var.vm_size
   os_disk_size_gb     = var.os_disk_size_gb
-  resource_group_name = module.resource_group.name
+  resource_group_name = "diego-gomez"
 }
 
 module "load_balancer" {
@@ -43,12 +43,12 @@ module "load_balancer" {
   public_ip_address_id = module.public_ip.id
   location             = var.location
   prefix               = var.prefix
-  resource_group_name  = module.resource_group.name
+  resource_group_name  = "diego-gomez"
 }
 
 module "public_ip" {
   source              = "./modules/public_ip"
   prefix              = var.prefix
   location            = var.location
-  resource_group_name = module.resource_group.name
+  resource_group_name = "diego-gomez"
 }
