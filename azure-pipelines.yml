@@ -21,7 +21,7 @@ steps:
   displayName: Azure CLI
   inputs:
     azureSubscription: ServConnectionName
-    scriptType: ps
+    scriptType: bash
     scriptLocation: inlineScript
     inlineScript: |
       az --version
@@ -35,5 +35,5 @@ steps:
   displayName: 'Tf version'
 
 - script: terraform init -backend-config=backend.tfconfig
-  workingDirectory: infra
+  workingDirectory: $(Pipeline.Workspace)/infra
   displayName: 'Tf init'
