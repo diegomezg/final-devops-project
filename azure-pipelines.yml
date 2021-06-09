@@ -17,6 +17,8 @@ steps:
 #     echo Add other tasks to build, test, and deploy your project.
 #     echo See https://aka.ms/yaml
 #   displayName: 'Run a multi-line script'
+- script: cd infra
+  displayName: 'Move to infra dir'
 
 - script: terraform --version
   displayName: 'Tf version'
