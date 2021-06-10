@@ -44,7 +44,7 @@ steps:
 #       az login -t $env:ARM_TENANT_ID
 #       az account set --subscription $env:ARM_SUBSCRIPTION_ID
 - task: AzureCLI@2
-  displayName: 'Terraform init'
+  displayName: 'Azure ENV vars'
   inputs:
     azureSubscription: ServConnectionName
     scriptType: pscore
@@ -58,7 +58,6 @@ steps:
       $env:ARM_TENANT_ID       ??= $(az account show --query tenantId -o tsv)
       $env:ARM_SUBSCRIPTION_ID ??= $(az account show --query id -o tsv)              
       # Put Terraform commands after this line
-      terraform init -backend-config=backend.tfconfig
     addSpnToEnvironment: true
     useGlobalConfig: true
     failOnStandardError: true
@@ -66,6 +65,6 @@ steps:
     workingDirectory: '$(terraformDirectory)'
 
 
-# - script: terraform init -backend-config=backend.tfconfig
-#   workingDirectory: infra
-#   displayName: 'Tf init'
+- script: terraform init -backend-config=backend.tfconfig
+  workingDirectory: infra
+  displayName: 'Tf init'
