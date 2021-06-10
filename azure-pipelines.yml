@@ -30,8 +30,14 @@ steps:
 - script: cd infra
   displayName: 'Move to infra dir'
 
-- script: terraform --version
-  displayName: 'Tf version'
+- task: CmdLine@2
+  inputs:
+    script: |
+      terraform --version
+            export ARM_CLIENT_ID=$(TF_VAR_SP_CLIENT_ID)
+            export ARM_CLIENT_SECRET=$(TF_VAR_SP_CLIENT_SECRET)
+            export ARM_TENANT_ID=$(TF_VAR_SP_TENANT_ID)
+            export ARM_SUBSCRIPTION_ID=$(TF_VAR_SUBSCRIPTION_ID)
 
 - script: terraform init -backend-config=backend.tfconfig
   workingDirectory: infra
