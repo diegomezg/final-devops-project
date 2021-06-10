@@ -34,10 +34,15 @@ steps:
   inputs:
     script: |
       terraform --version
-            export ARM_CLIENT_ID=$(TF_VAR_SP_CLIENT_ID)
-            export ARM_CLIENT_SECRET=$(TF_VAR_SP_CLIENT_SECRET)
-            export ARM_TENANT_ID=$(TF_VAR_SP_TENANT_ID)
-            export ARM_SUBSCRIPTION_ID=$(TF_VAR_SUBSCRIPTION_ID)
+            # export ARM_CLIENT_ID=$(TF_VAR_SP_CLIENT_ID)
+            # export ARM_CLIENT_SECRET=$(TF_VAR_SP_CLIENT_SECRET)
+            # export ARM_TENANT_ID=$(TF_VAR_SP_TENANT_ID)
+            # export ARM_SUBSCRIPTION_ID=$(TF_VAR_SUBSCRIPTION_ID)
+      $env:ARM_SUBSCRIPTION_ID=$(TF_VAR_SUBSCRIPTION_ID)
+      $env:ARM_TENANT_ID=$(TF_VAR_SP_TENANT_ID)
+      az login -t $env:ARM_TENANT_ID
+      az account set --subscription $env:ARM_SUBSCRIPTION_ID
+
 
 - script: terraform init -backend-config=backend.tfconfig
   workingDirectory: infra
