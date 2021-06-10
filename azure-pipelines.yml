@@ -46,7 +46,7 @@ steps:
 - task: AzureCLI@2
   displayName: 'Terraform init'
   inputs:
-    azureSubscription: '$(subscriptionConnection)'
+    azureSubscription: ServConnectionName
     scriptType: pscore
     scriptLocation: inlineScript
     inlineScript: |
