@@ -58,6 +58,7 @@ steps:
       $env:ARM_TENANT_ID       ??= $(az account show --query tenantId -o tsv)
       $env:ARM_SUBSCRIPTION_ID ??= $(az account show --query id -o tsv)              
       # Put Terraform commands after this line
+      terraform init -backend-config=backend.tfconfig
     addSpnToEnvironment: true
     useGlobalConfig: true
     failOnStandardError: true
