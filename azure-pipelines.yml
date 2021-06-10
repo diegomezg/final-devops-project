@@ -34,6 +34,7 @@ steps:
     script: |
       cd $(System.DefaultWorkingDirectory)/infra
       pwd
+      ls -lh
 
 # - task: CmdLine@2
 #   inputs:
