@@ -35,6 +35,7 @@ steps:
       cd $(System.DefaultWorkingDirectory)/infra
       pwd
       ls -lh
+      terraform init
 
 # - task: CmdLine@2
 #   inputs:
