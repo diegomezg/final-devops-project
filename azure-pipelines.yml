@@ -35,7 +35,8 @@ steps:
       cd $(System.DefaultWorkingDirectory)/infra
       pwd
       ls -lh
-      terraform init
+      export $ARM_CLIENT_SECRET=$(TF_VAR_SP_CLIENT_SECRET)
+      terraform init -backend-config=backend.tfconfig
 
 # - task: CmdLine@2
 #   inputs:
