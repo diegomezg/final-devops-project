@@ -39,3 +39,18 @@ variable "os_disk_size_gb" {
   default     = 40
   type        = number
 }
+
+variable "SUBSCRIPTION_ID" {
+  description = "Azure Subscription ID"
+  type = string
+}
+variable "SP_CLIENT_ID"{
+  description = "Service Principal ID"
+  type = string
+}
+variable "SP_CLIENT_SECRET"{
+type = string
+}
+variable "SP_TENANT_ID"{
+  type = string
+}
