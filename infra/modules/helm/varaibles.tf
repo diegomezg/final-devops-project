@@ -28,26 +28,6 @@ variable "node_count" {
   type = number
 }
 
-variable "host" {
-    description = "Kubernetes host"
-    type = string
-}
-
-variable "client_key" {
-    description = "Kubernetes client_key"
-    type = string
-}
-
-variable "client_certificate" {
-    description = "Kubernetes client_certificate"
-    type = string
-}
-
-variable "cluster_ca_certificate" {
-    description = "cluster_ca_certificate"
-    type = string
-}
-
 variable "ns_name" {
   type        = string
   default     = "monitoring"
