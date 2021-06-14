@@ -66,6 +66,6 @@ steps:
     provider: 'azurerm'
     command: 'apply'
     workingDirectory: '$(System.DefaultWorkingDirectory)/infra'
-    commandOptions: '-lock=false -auto-approval -var="client_id=$(TF_VAR_client_id)" -var="client_secret=$(TF_VAR_client_secret)"'
+    commandOptions: '-lock=false -auto-approve -var="client_id=$(TF_VAR_client_id)" -var="client_secret=$(TF_VAR_client_secret)"'
     environmentServiceNameAzureRM: 'ServConnectionName'
 
