@@ -3,6 +3,15 @@ provider "azurerm" {
   skip_provider_registration = true
 }
 
+provider "helm" {
+  kubernetes {
+    host                   = module.aks.host
+    client_key             = module.aks.client_key
+    client_certificate     = module.aks.client_certificate
+    cluster_ca_certificate = module.aks.cluster_ca_certificate
+  }
+}
+
 terraform {
   backend "azurerm" {
     resource_group_name  = "diego-gomez"
@@ -36,6 +45,16 @@ module "aks" {
   vm_size             = var.vm_size
   os_disk_size_gb     = var.os_disk_size_gb
   resource_group_name = "diego-gomez"
+}
+
+module "helm" {
+  source                 = "./modules/helm"
+  prefix                 = var.prefix
+  location               = var.location
+  client_id              = var.client_id
+  client_secret          = var.client_secret
+  node_count             = var.node_count
+  resource_group_name    = "diego-gomez"
 }
 
 module "load_balancer" {
