@@ -35,6 +35,14 @@ steps:
 - task: TerraformTaskV2@2
   inputs:
     provider: 'azurerm'
-    command: 'plan'
+    command: 'validate'
     workingDirectory: '$(System.DefaultWorkingDirectory)/infra'
     environmentServiceNameAzureRM: 'ServConnectionName'
+
+# - task: TerraformTaskV2@2
+#   inputs:
+#     provider: 'azurerm'
+#     command: 'apply'
+#     workingDirectory: '$(System.DefaultWorkingDirectory)/infra'
+#     commandOptions: '-auto-approve'
+#     environmentServiceNameAzureRM: 'ServConnectionName'
