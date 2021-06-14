@@ -27,11 +27,6 @@ steps:
     command: 'init'
     workingDirectory: '$(System.DefaultWorkingDirectory)/infra'
     commandOptions: '-backend-config=backend.tfconfig'
-    backendServiceArm: 'ServConnectionName'
-    backendAzureRmResourceGroupName: 'diego-gomez'
-    backendAzureRmStorageAccountName: 'team3demodou'
-    backendAzureRmContainerName: 'tstate'
-    backendAzureRmKey: '$(System.DefaultWorkingDirectory)/infra/.terraform/terraform.tfstate'
 
 - task: TerraformTaskV2@2
   displayName: TF VAL
