@@ -31,13 +31,13 @@ steps:
     backendAzureRmContainerName: 'tstate'
     backendAzureRmKey: 'terraform.tfstate'
 
-- task: TerraformTaskV2@2
-  displayName: TF VAL
-  inputs:
-    provider: 'azurerm'
-    command: 'validate'
-    workingDirectory: '$(System.DefaultWorkingDirectory)/infra'
-    environmentServiceNameAzureRM: 'ServConnectionName'
+# - task: TerraformTaskV2@2
+#   displayName: TF VAL
+#   inputs:
+#     provider: 'azurerm'
+#     command: 'validate'
+#     workingDirectory: '$(System.DefaultWorkingDirectory)/infra'
+#     environmentServiceNameAzureRM: 'ServConnectionName'
 
 # - task: TerraformTaskV2@2
 #   displayName: TF APPLY
@@ -57,5 +57,15 @@ steps:
     provider: 'azurerm'
     command: 'plan'
     workingDirectory: '$(System.DefaultWorkingDirectory)/infra'
-    commandOptions: '-lock=false -var="client_id=$(TF_VAR_client_id)" -var="client_secret=$(TF_VAR_client_secret)"'
+    commandOptions: '-lock=false'
+    
+- task: TerraformTaskV2@2
+  displayName: TF APPLY
+  inputs:
+    provider: 'azurerm'
+    command: 'apply'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/infra'
+    commandOptions: '-lock=false -auto-approval -var="client_id=$(TF_VAR_client_id)" -var="client_secret=$(TF_VAR_client_secret)"'
     environmentServiceNameAzureRM: 'ServConnectionName'
+    environmentServiceNameAzureRM: 'ServConnectionName'
+
