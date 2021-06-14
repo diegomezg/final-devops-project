@@ -1,3 +1,8 @@
+data "azurerm_kubernetes_cluster" "example" {
+  name                = "teamthree-k8s"
+  resource_group_name = "diego-gomez"
+}
+
 provider "azurerm" {
   features {}
   skip_provider_registration = true
@@ -5,11 +10,18 @@ provider "azurerm" {
 
 provider "helm" {
   kubernetes {
-    host                   = module.aks.host
-    client_key             = module.aks.client_key
-    client_certificate     = module.aks.client_certificate
-    cluster_ca_certificate = module.aks.cluster_ca_certificate
+    host                   = "${data.azurerm_kubernetes_cluster.example.kube_config.0.host}"
+    client_certificate     = "${base64decode(data.azurerm_kubernetes_cluster.example.kube_config.0.client_certificate)}"
+    client_key             = "${base64decode(data.azurerm_kubernetes_cluster.example.kube_config.0.client_key)}"
+    cluster_ca_certificate = "${base64decode(data.azurerm_kubernetes_cluster.example.kube_config.0.cluster_ca_certificate)}"
   }
+}
+
+provider "kubernetes" {
+  host                   = "${data.azurerm_kubernetes_cluster.example.kube_config.0.host}"
+  client_certificate     = "${base64decode(data.azurerm_kubernetes_cluster.example.kube_config.0.client_certificate)}"
+  client_key             = "${base64decode(data.azurerm_kubernetes_cluster.example.kube_config.0.client_key)}"
+  cluster_ca_certificate = "${base64decode(data.azurerm_kubernetes_cluster.example.kube_config.0.cluster_ca_certificate)}"
 }
 
 terraform {
