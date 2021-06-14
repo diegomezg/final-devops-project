@@ -28,16 +28,6 @@ variable "node_count" {
   type = number
 }
 
-variable "vm_size" {
-  description = "VM size for each node"
-  type = string
-}
-
-variable "os_disk_size_gb" {
-  description = "VM disk size in Gb"
-  type = number
-}
-
 variable "host" {
     description = "Kubernetes host"
     type = string

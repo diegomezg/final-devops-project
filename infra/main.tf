@@ -45,8 +45,6 @@ module "helm" {
   client_id              = var.client_id
   client_secret          = var.client_secret
   node_count             = var.node_count
-  vm_size                = var.vm_size
-  os_disk_size_gb        = var.os_disk_size_gb
   resource_group_name    = "diego-gomez"
   host                   = module.aks.host
   client_key             = module.aks.client_key
