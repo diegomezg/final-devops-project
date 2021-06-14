@@ -21,6 +21,7 @@ steps:
       az account show
  
 - task: TerraformTaskV2@2
+  displayName: TF INIT
   inputs:
     provider: 'azurerm'
     command: 'init'
@@ -33,16 +34,18 @@ steps:
     backendAzureRmKey: '$(System.DefaultWorkingDirectory)/infra/.terraform/terraform.tfstate'
 
 - task: TerraformTaskV2@2
+  displayName: TF VAL
   inputs:
     provider: 'azurerm'
     command: 'validate'
     workingDirectory: '$(System.DefaultWorkingDirectory)/infra'
     environmentServiceNameAzureRM: 'ServConnectionName'
 
-# - task: TerraformTaskV2@2
-#   inputs:
-#     provider: 'azurerm'
-#     command: 'apply'
-#     workingDirectory: '$(System.DefaultWorkingDirectory)/infra'
-#     commandOptions: '-auto-approve'
-#     environmentServiceNameAzureRM: 'ServConnectionName'
+- task: TerraformTaskV2@2
+  displayName: TF APPLY
+  inputs:
+    provider: 'azurerm'
+    command: 'apply'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/infra'
+    commandOptions: '-auto-approve'
+    environmentServiceNameAzureRM: 'ServConnectionName'
