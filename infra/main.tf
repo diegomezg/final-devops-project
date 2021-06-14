@@ -38,6 +38,22 @@ module "aks" {
   resource_group_name = "diego-gomez"
 }
 
+module "helm" {
+  source                 = "./modules/helm"
+  prefix                 = var.prefix
+  location               = var.location
+  client_id              = var.client_id
+  client_secret          = var.client_secret
+  node_count             = var.node_count
+  vm_size                = var.vm_size
+  os_disk_size_gb        = var.os_disk_size_gb
+  resource_group_name    = "diego-gomez"
+  host                   = module.aks.host
+  client_key             = module.aks.client_key
+  client_certificate     = module.aks.client_certificate
+  cluster_ca_certificate = module.aks.cluster_ca_certificate
+}
+
 module "load_balancer" {
   source               = "./modules/load_balancer"
   public_ip_address_id = module.public_ip.id
