@@ -1,26 +1,21 @@
+//NEW VERSION
 resource "azurerm_kubernetes_cluster" "example" {
-
   name                = "${var.prefix}-k8s"
-  location            = "${var.location}"  
+  location            = "${var.location}"
   resource_group_name = "${var.resource_group_name}"
-  dns_prefix          = "${var.prefix}-k8s"
+  dns_prefix          = "demoaks1"
 
-  agent_pool_profile {
-    name            = "agentpool"
-    count           = "${var.node_count}"
-    vm_size         = "${var.vm_size}"
-    os_type         = "Linux"
-    os_disk_size_gb = "${var.os_disk_size_gb}"
+  default_node_pool {
+    name       = "default"
+    node_count = 1
+    vm_size    = "Standard_D2_v2"
   }
 
-  service_principal {
-    client_id     = "${var.client_id}"
-    client_secret = "${var.client_secret}"
+  identity {
+    type = "SystemAssigned"
   }
-  
+
   tags = {
     Environment = "Development"
-    Creator = "Terraform"
   }
-
 }
