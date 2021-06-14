@@ -1,7 +1,7 @@
 provider "azurerm" {
   subscription_id = "c4774376-bc4c-48e6-93eb-c0ac26c6345d"
   client_id       = "82062f05-5c47-4d67-af49-384242e0d83f"
-  client_secret   = var.SP_CLIENT_SECRET
+  client_secret   = var.client_secret
   tenant_id       = "c8cd0425-e7b7-4f3d-9215-7e5fa3f439e8"
   #version         = "=2.0.0" #Can be overide as you wish
   features{}
