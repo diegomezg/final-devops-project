@@ -32,3 +32,9 @@ steps:
     backendAzureRmContainerName: 'tstate'
     backendAzureRmKey: '$(System.DefaultWorkingDirectory)/infra/.terraform/terraform.tfstate'
 
+- task: TerraformTaskV2@2
+  inputs:
+    provider: 'azurerm'
+    command: 'plan'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/infra'
+    environmentServiceNameAzureRM: 'ServConnectionName'
