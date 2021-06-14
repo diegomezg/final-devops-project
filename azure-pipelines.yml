@@ -8,7 +8,7 @@ steps:
 - task: TerraformInstaller@0
   displayName: 'Terraform version'
   inputs:
-    terraformVersion: '0.15.2'
+    terraformVersion: '1.0.0'
 - task: AzureCLI@2
   displayName: Azure CLI
   inputs:
