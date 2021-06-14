@@ -49,6 +49,9 @@ steps:
 #     workingDirectory: '$(System.DefaultWorkingDirectory)/infra'
 #     commandOptions: '-auto-approve'
 #     environmentServiceNameAzureRM: 'ServConnectionName'
+- task: CmdLine@2
+  inputs:
+    script: 'export TF_VAR_client_id=$(TF_VAR_client_id) TF_VAR_client_secret=$(TF_VAR_client_secret)'
 
 - task: TerraformTaskV2@2
   displayName: TF APPLY
