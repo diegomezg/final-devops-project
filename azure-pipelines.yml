@@ -41,11 +41,20 @@ steps:
     workingDirectory: '$(System.DefaultWorkingDirectory)/infra'
     environmentServiceNameAzureRM: 'ServConnectionName'
 
+# - task: TerraformTaskV2@2
+#   displayName: TF APPLY
+#   inputs:
+#     provider: 'azurerm'
+#     command: 'force-unlock'
+#     workingDirectory: '$(System.DefaultWorkingDirectory)/infra'
+#     commandOptions: '-auto-approve'
+#     environmentServiceNameAzureRM: 'ServConnectionName'
+
 - task: TerraformTaskV2@2
   displayName: TF APPLY
   inputs:
     provider: 'azurerm'
     command: 'apply'
     workingDirectory: '$(System.DefaultWorkingDirectory)/infra'
-    commandOptions: '-auto-approve'
+    commandOptions: '-auto-approve -lock=false'
     environmentServiceNameAzureRM: 'ServConnectionName'
