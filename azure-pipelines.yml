@@ -57,7 +57,7 @@ steps:
     provider: 'azurerm'
     command: 'plan'
     workingDirectory: '$(System.DefaultWorkingDirectory)/infra'
-    commandOptions: '-lock=false'
+    commandOptions: '-lock=false -var="client_id=$(TF_VAR_client_id)" -var="client_secret=$(TF_VAR_client_secret)"'
     environmentServiceNameAzureRM: 'ServConnectionName'
     
 - task: TerraformTaskV2@2
