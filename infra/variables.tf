@@ -14,13 +14,11 @@ variable "location" {
 variable "client_id" {
   description = "Service Principal client id"
   type        = string
-  sensitive   = true
 }
 
 variable "client_secret" {
   description = "Service Principal client secret (password)"
   type        = string
-  sensitive   = true
 }
 
 
@@ -42,21 +40,8 @@ variable "os_disk_size_gb" {
   type        = number
 }
 
-# variable "SUBSCRIPTION_ID" {
-#   description = "Azure Subscription ID"
-#   type = string
-# }
-# variable "SP_CLIENT_ID"{
-#   description = "Service Principal ID"
-#   type = string
-# }
-# variable "SP_CLIENT_SECRET"{
-# type = string
-# }
-# variable "SP_TENANT_ID"{
-#   type = string
-# }
-
 variable "resource_group_name" {
-  default = "diego-gomez"
+  description = "Resource Group Name"
+  default     = "diego-gomez"
+  type        = string
 }
