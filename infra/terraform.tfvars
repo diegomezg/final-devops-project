@@ -1,4 +1,4 @@
-prefix               = "team-3"
+prefix               = "teamthree"
 resource_group_name  = "diego-gomez"
 location             = "CentralUS"
 node_count           = 3                # Min 3 nodes recommended for production

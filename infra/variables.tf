@@ -1,6 +1,6 @@
 variable "prefix" {
   description = "A prefix used for all resources in this example"
-  default     = "team-3"
+  default     = "teamthree"
   type        = string
 }
 
@@ -14,11 +14,13 @@ variable "location" {
 variable "client_id" {
   description = "Service Principal client id"
   type        = string
+  sensitive   = true
 }
 
 variable "client_secret" {
   description = "Service Principal client secret (password)"
   type        = string
+  sensitive   = true
 }
 
 
@@ -38,4 +40,10 @@ variable "os_disk_size_gb" {
   description = "VM disk size in Gb"
   default     = 40
   type        = number
+}
+
+variable "resource_group_name" {
+  description = "Resource Group Name"
+  default     = "diego-gomez"
+  type        = string
 }

@@ -1,4 +1,4 @@
-storage_account_name  = "tstatesystest"     # Storage Volume name
+storage_account_name  = "team3demodou"     # Storage Volume name
 container_name        = "tstate"            # Resource Group name
 key                   = "terraform.tfstate" # Do not change this
 

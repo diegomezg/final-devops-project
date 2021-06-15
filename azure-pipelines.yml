@@ -1,0 +1,71 @@
+trigger:
+- azure-pipelines
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- task: TerraformInstaller@0
+  displayName: 'Terraform version'
+  inputs:
+    terraformVersion: '1.0.0'
+- task: AzureCLI@2
+  displayName: Azure CLI
+  inputs:
+    addSpnToEnvironment: true
+    azureSubscription: ServConnectionName
+    scriptType: bash
+    scriptLocation: inlineScript
+    inlineScript: |
+      az --version
+      az account show
+ 
+- task: TerraformTaskV2@2
+  inputs:
+    provider: 'azurerm'
+    command: 'init'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/infra'
+    backendServiceArm: 'ServConnectionName'
+    backendAzureRmResourceGroupName: 'diego-gomez'
+    backendAzureRmStorageAccountName: 'team3demodou'
+    backendAzureRmContainerName: 'tstate'
+    backendAzureRmKey: 'terraform.tfstate'
+
+# - task: TerraformTaskV2@2
+#   displayName: TF VAL
+#   inputs:
+#     provider: 'azurerm'
+#     command: 'validate'
+#     workingDirectory: '$(System.DefaultWorkingDirectory)/infra'
+#     environmentServiceNameAzureRM: 'ServConnectionName'
+
+# - task: TerraformTaskV2@2
+#   displayName: TF APPLY
+#   inputs:
+#     provider: 'azurerm'
+#     command: 'force-unlock'
+#     workingDirectory: '$(System.DefaultWorkingDirectory)/infra'
+#     commandOptions: '-auto-approve'
+#     environmentServiceNameAzureRM: 'ServConnectionName'
+- task: CmdLine@2
+  inputs:
+    script: 'export TF_VAR_client_id=$(TF_VAR_client_id) TF_VAR_client_secret=$(TF_VAR_client_secret)'
+
+- task: TerraformTaskV2@2
+  displayName: TF PLAN
+  inputs:
+    provider: 'azurerm'
+    command: 'plan'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/infra'
+    commandOptions: '-lock=false -var="client_id=$(TF_VAR_client_id)" -var="client_secret=$(TF_VAR_client_secret)"'
+    environmentServiceNameAzureRM: 'ServConnectionName'
+    
+- task: TerraformTaskV2@2
+  displayName: TF APPLY
+  inputs:
+    provider: 'azurerm'
+    command: 'apply'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/infra'
+    commandOptions: '-lock=false -auto-approve -var="client_id=$(TF_VAR_client_id)" -var="client_secret=$(TF_VAR_client_secret)"'
+    environmentServiceNameAzureRM: 'ServConnectionName'
+
