@@ -38,7 +38,7 @@ Build, upload and deploy images to Kubernetes cluster
 * Performance test  
 Run k6 load-test to determine system behaviour under both normal and anticipated peak load conditions. It helps to identify maximum operating capacity of the application as well as any bottlenecks and determine which element is causing degradation.  
 
-## Tools and Justification
+## Talk about the stack / Tools and Justification
 
 ## Usage
 * Prerequisitos
