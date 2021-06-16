@@ -50,11 +50,16 @@ For the Kubernetes package manager we decided to use Helm because it has a big c
 
 We decided to use Skaffold because is an innovating tool that is growing everyday and compared to Docker Compose it's more friendly and oriented to Kubernetes. Skaffold offers a variety of benefits for example when you run the Skaffold yaml file it builds the images based on the dockerfile code, then uploads them to a container in this case Azure Container Registry (ACR), then it pulls them to the Kubernetes cluster and deploys them in different pods. For the containers we used Docker because is the most common and used container tool in the industry and it's easier to use it with Skaffold than any other tool.
 
-## Usage
-* Prerequisitos
+## Usage  
+### Contents
+
+* [1. Infrastructure CI/CD](./README.md)
+* [2. Web App CI/CD](./docs/01_prerequisites.md)  
+
 * Como correrlo
 * Que debe existir al correrlo (que obtengo / resultado)
 Azure CLI must be use to generate backend credentials
+
 Aram:
 puedes describir en detalle la arquitectura de tu solucion e ilustrar como funciona, requerimientos de la misma e instrucciones concretas para hacer que funcione
 Paulo:
