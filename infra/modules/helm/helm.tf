@@ -5,3 +5,17 @@ resource "helm_release" "helm_chart" {
   namespace        = var.ns_name
   chart            = var.chart
 }
+
+resource "kubernetes_namespace" "dev" {
+  metadata {
+    annotations = {
+      name = "dev-namespace"
+    }
+
+    labels = {
+      mylabel = "dev-namespace"
+    }
+
+    name = "dev"
+  }
+}
