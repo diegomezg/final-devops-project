@@ -3,7 +3,7 @@
 ### Daniel Flores | Diego Gómez | Paulo Mateos | Martín Salazar
 
 ## Project Background
-There is a company that had build its e-commerce aplication using microservices solutions and deployed them on many VMs that are consuming many resources (infrastructure and billing) so we developed this solution to integrate, automate, accelerate and protect the application deployment and infrastructure using CI/CD tools Git for version control and branching model, Azure Repositories to host the source code, Azure Pipelines to run automated processes based on Azure Cloud Provider and its services using Kubernetes for running microservices on an isolated environment and Terraform for Infrastructure as Code.
+There is a company that had built its e-commerce application using microservices solutions and deployed them on many VMs that are consuming many resources (infrastructure and billing) so we developed this solution to integrate, automate, accelerate and protect the application deployment and infrastructure using CI/CD tools Git for version control and branching model, Azure Repositories to host the source code, Azure Pipelines to run automated processes based on Azure Cloud Provider and its services using Kubernetes for running microservices on an isolated environment and Terraform for Infrastructure as Code.
 
 ## Infrastructure
 ![Infrastructure diagram](/documentation/img/infra-diagram.png)
