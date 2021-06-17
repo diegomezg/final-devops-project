@@ -1,6 +1,6 @@
 ## Prerequisites
-### * Verify all Terraform resources were sucessfully created on last pipeline  
-### * Create a Azure DevOps Service Connection Name, this allow to connect Azure Cloud resources to Azure DevoPS solutions
+- Verify all Terraform resources were sucessfully created on last pipeline  
+- Create an [Azure DevOps Service Connection](https://docs.microsoft.com/en-us/azure/devops/pipelines/library/service-endpoints?view=azure-devops&tabs=yaml), this allow to connect Azure Cloud resources to Azure DevoPS solutions
 
 ## Fork the Hipster Shop repository
 Fork the [Web App](https://dev.azure.com/diegogomez0768/Final%20Project/_git/Web%20App) from Azure Repos:
