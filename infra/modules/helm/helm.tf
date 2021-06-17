@@ -19,3 +19,17 @@ resource "kubernetes_namespace" "dev" {
     name = "dev"
   }
 }
+
+resource "kubernetes_namespace" "test" {
+  metadata {
+    annotations = {
+      name = "test-namespace"
+    }
+
+    labels = {
+      mylabel = "test-namespace"
+    }
+
+    name = "test"
+  }
+}
