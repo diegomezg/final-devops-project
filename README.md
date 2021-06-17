@@ -28,8 +28,9 @@ Display which changes are going to be applied on resources
 * Terraform Apply  
 Apply changes specified on Tf Plan stage and upload infrastructure
 #### Web Application  
-![Web App pipeline diagram](/documentation/img/diagram-web-app.png)
-This pipelines is triggered when a new commit is uploaded to Web App reposiroty hosted on Azure Repos also use a task to connect to Azure CLI to provide resources and credentials  
+![Web App pipeline diagram](/documentation/img/diagram-web-app.png)  
+
+This pipelines is triggered when a new commit is uploaded to Web App reposiroty hosted on Azure Repos, also use a task to connect to Azure CLI to provide resources and credentials  
 * Skaffold installation   
 Provide to pipeline agent latest Skaffold version
 * Skaffold run  
