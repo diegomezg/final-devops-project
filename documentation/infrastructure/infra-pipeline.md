@@ -13,9 +13,7 @@ https://dev.azure.com/diegogomez0768/Final%20Project/_git/Deployment-App?path=%2
 You will need to install the following tools:
 
 - [Azure Command Line Interface (CLI)](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest): To create Azure resources, use Terraform with your Azure account, and retrieve credentials Kubernetes configuration.
-- [Terraform](https://www.terraform.io/downloads.html): To automatically provision infrastructure (resource group, managed Kubernetes cluster).
-- Docker ([linux](https://docs.docker.com/install/linux/docker-ce/ubuntu/), [mac](https://docs.docker.com/docker-for-mac/install/), [win](https://docs.docker.com/docker-for-windows/install/)): Used by Skaffold to build and push images .
-- [Kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/): Used by Skaffold to control the cluster, we will also use it to inspect it from the command line.
+- [Azure Resource Group](https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/manage-resource-groups-portal): You need to create a resource group in Azure.
 
 ### **Configure Azure CLI**
 
@@ -155,7 +153,7 @@ Change to the `infra` directory. You will find several files and folders:
     - `aks` (folder): files to define an Azure Kubernetes Service provisioning
     - `load_balancer` (folder): files to define load balancer
     - `public_ip` (folder): files to define a public ip
-    - `resource-group` (folder): files to define a Resource Group provisioning
+    - `helm` (folder): files to install Prometheus with Helm and create kubernetes namespaces called monitoring and dev.
 - The "prefix" must contain only alphabetical characters, because it is used for the name of the Azure Container Registry, and that only allows this kind of characters (no numbers, dashes or underscores).
 
 Following of running the pipeline from the forked repo.
@@ -172,7 +170,7 @@ steps:
     terraformVersion: '1.0.0'
 ```
 
-Now we install the Azure CLI in the pipeline:
+Now we install the Azure CLI in the pipeline and login to your azure account:
 
 ```bash
 task: AzureCLI@2
@@ -238,6 +236,17 @@ task: TerraformTaskV2@2
 
 The plan will be shown again. The provisioning process will last more than 10 minutes. At the beginning of this process, the plan will be saved on the Azure storage created previously, and the file marked as 'locked', so anybody else using the same plan will be prevented to do changes to infrastructure until you finish.
 
+The last step before your first pipeline RUN is to create some Azure Pipelines variables, from the last pipeline you must have a Service Principal credentials just as:
+* TENANT_ID  
+This is the Service Principal tenant.
+* TF_VAR_client_id  
+This is the Service Principal app id.
+* TF_VAR_SUBSCRIPTION_ID  
+This is your subscription id.
+* TF_VAR_client_secret  
+This is the Service Principal password.  
+>*Note: This variables must be marked as SECRETS to hide values from other users*
+
 # **You will now have on your Azure account:**
 
 - An storage account, that holds the rest of the resources
@@ -245,5 +254,8 @@ The plan will be shown again. The provisioning process will last more than 10 mi
 - A public IP assignment
 - A load balancer assigned to that public IP
 - An Azure Kubernetes Service managed cluster, using the previous load balancer
+- Helm installed in your Kubernetes cluster
+- Prometheus and Grafana installed in Kubernetes in monitoring namespace.
+- A namespace called dev to deploy the app inside Kubernetes.
 
 *You could omit the creation of the public IP and load balancer, as those resources would be automatically provisioned for your cluster. But when you provision them in an explicit way, if you later remove the Kubernetes cluster to replace it for a different one, you will maintain the same IP address.*

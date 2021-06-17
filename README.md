@@ -54,15 +54,5 @@ We decided to use Skaffold because is an innovating tool that is growing everyda
 ## Usage  
 ### Contents
 
-* [1. Infrastructure CI/CD](./documentation/infrastructure/infra-pipeline.md)
-* [2. Web App CI/CD](./documentation/web-app/web-app-pipeline.md)  
-
-* Como correrlo
-* Que debe existir al correrlo (que obtengo / resultado)
-Azure CLI must be use to generate backend credentials
-
-Aram:
-puedes describir en detalle la arquitectura de tu solucion e ilustrar como funciona, requerimientos de la misma e instrucciones concretas para hacer que funcione
-Paulo:
-Que tecnologías vamos a usar y porque
-Usage de nuestra infra
+* [1. Provision infrastructure with Terraform and Azure pipeline](./documentation/infrastructure/infra-pipeline.md)
+* [2. Deploy microservices with Skaffold and Azure pipelines](./documentation/web-app/web-app-pipeline.md)  

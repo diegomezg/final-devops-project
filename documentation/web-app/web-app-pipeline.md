@@ -7,7 +7,12 @@ Fork the Hipster Shop repository from Azure Repos:
 ```
  https://dev.azure.com/diegogomez0768/Final%20Project/_git/Web%20App
  ```
-## After the repo is forked, now you must create new pipeline 
+
+ ## After the repo is forked, you must change the ip located in the script.js file:
+
+![Test](../img/test-ip.png)
+
+## Now you must create new pipeline 
 
  ![new pipeline](../img/create-pipeline-gui.png)
 
@@ -33,7 +38,7 @@ And push CREATE button
 
 ![new pipeline](../img/text.png) 
 
-### The last step after your first pipeline RUN is to create some Azure Pipelines variables, from the last pipeline you must have a Azure Container Registry credentials just as:
+### The last step before your first pipeline RUN is to create some Azure Pipelines variables, from the last pipeline you must have an Azure Container Registry credentials just as:
 * SKAFFOLD_DEFAULT_REPO  
 This is your ACR repository URL, something just like myACR.azurecr.io
 * ACR_USER  
