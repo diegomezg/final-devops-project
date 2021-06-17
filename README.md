@@ -53,8 +53,8 @@ We decided to use Skaffold because is an innovating tool that is growing everyda
 ## Usage  
 ### Contents
 
-* [1. Infrastructure CI/CD](./infra-pipeline.md)
-* [2. Web App CI/CD](./docs/web-app-pipeline.md)  
+* [1. Infrastructure CI/CD](./documentation/infrastructure/infra-pipeline.md)
+* [2. Web App CI/CD](./documentation/web-app/web-app-pipeline.md)  
 
 * Como correrlo
 * Que debe existir al correrlo (que obtengo / resultado)
