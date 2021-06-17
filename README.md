@@ -1,42 +1,58 @@
-# Azure Hipster Shop: AKS Microservices Demo
+# Digital On Us Demo Project TEAM 3
+## Teamates:
+### Daniel Flores | Diego Gómez | Paulo Mateos | Martín Salazar
 
-This project is an extension of the project "Hipster Shop: Cloud-Native Microservices Demo Application" from Google, available here: https://github.com/GoogleCloudPlatform/microservices-demo
+## Project Background
+There is a company that had build its e-commerce aplication using microservices solutions and deployed them on many VMs that are consuming many resources (infrastructure and billing) so we developed this solution to integrate, automate, accelerate and protect the application deployment and infrastructure using CI/CD tools Git for version control and branching model, Azure Repositories to host the source code, Azure Pipelines to run automated processes based on Azure Cloud Provider and its services using Kubernetes for running microservices on an isolated environment and Terraform for Infrastructure as Code.
 
-The main focus here is to be able to deploy that demo project to Azure Kubernetes Service using best practices.
+## Infrastructure
+![Infrastructure diagram](/documentation/img/infra-diagram.png)
+This project uses a [demo e-commerce app](https://github.com/GoogleCloudPlatform/microservices-demo)  
 
-## 0. Getting started
+The terraform code deploys on Azure the resources that are going to be used including Azure Container Registry, Azure Kubernetes Service and a Backend Container. Once the AKS is created it will install helm and host a monitoring namespace where a Prometheus and Grafana agent will be deployed.  
 
-### Introduction
+Skaffold feature requires the present project to integrate the Kubernetes manifests which are the deployment task responsible through the Azure Kubernetes Service (AKS). Those Kubernetes manifests check for the micro-service features as containers, images, resources utilization as well as the kind of service they gonna be use.  
 
-Hipster Shop is a demo project to test a microservices architecture on Kubernetes. It comprises an online shop powered by 10 different microservices, written in different programming languages (Java, Go, C#, Python, JavaScript/NodeJS). It is not a functional service or optimized, and its purpose is only for learning and testing. It comes with Locust preconfigured, a load generator that will start to run simulated traffic on the shop as soon as it boots up. 
+Skaffold agent code builds docker images, uploads images to Azure Container Registry and pulls images to be deployed on Azure Resources. Also create pods on a namespace within the cluster and provides a Public IP where the frontend application will be displayed.  
 
-The original Hipster Shop demo is intended for use in a local Kubernetes cluster or deployed to Google Kubernetes Engine. As Kubernetes is a standard, to add value to this demo we will explain how to deploy it on Azure Kubernetes Services (AKS) using Terraform, with a special focus on specific requirements for this cloud provider.
+### Pipelines  
+#### Infrastructure  
+![Infrastructure pipeline diagram](/documentation/img/diagram-infra.png)
+This pipelines is triggered when a new commit is uploaded to Deployment-App reposiroty hosted on Azure Repos also use a task to connect to Azure CLI to provide resources and credentials 
+* Terraform Installation 
+Provide to pipeline agent latest Terraform version
+* Terraform Init task  
+Validation of backend state and verifies Tf providers are correctly called
+* Terraform Plan  
+Display which changes are going to be applied on resources
+* Terraform Apply  
+Apply changes specified on Tf Plan stage and upload infrastructure
+#### Web Application  
+![Web App pipeline diagram](/documentation/img/diagram-web-app.png)  
 
-We will also deploy Prometheus as a metric extractor and Grafana as a visualization tool for those metrics into the Kubernetes cluster using Helm.
+This pipelines is triggered when a new commit is uploaded to Web App reposiroty hosted on Azure Repos, also use a task to connect to Azure CLI to provide resources and credentials  
+* Skaffold installation   
+Provide to pipeline agent latest Skaffold version
+* Skaffold run  
+Build, upload and deploy images to Kubernetes cluster
+* Performance test  
+Run k6 load-test to determine system behaviour under both normal and anticipated peak load conditions. It helps to identify maximum operating capacity of the application as well as any bottlenecks and determine which element is causing degradation.  
 
-![general_diagram](./docs/img/general_diagram.png)
+## Technologies justification
+We decided to make the infrastructure on a cloud because on-premise datacenters are becoming obsoletes because they are very expensive, requires more people to maintain the physical machines and are exposed to no break issues. In other hand a cloud infrastructure offers a more reliable, flexible and affordable solution.
 
-### How to use
+We used Azure Cloud because is the cloud where we have more experience, also Microsoft has made it one of the most reliable cloud solutions offering some of the best resources like Azure Devops, Azure Kubernetes Service (AKS), Azure Container Registry (ACR), etc. Where you can have all the resources in the same environment and it's easier to handle them, for example you can store your secrets in a key vault and it can be accessed easily form anywhere inside the Azure environment.
 
-This instructions comes with some __optional__, __alternative__ and __improvement__ parts. You can skip them if you like for a straight forward procedure. The improvements will suggest additional task that you could investigate on your own to improve this exercise.
+Using some features of Azure Devops like Azure Repos and Azure Pipelines we were able to extract most of the benefits that it offers like an easier integration of the repos with our pipelines without the need of using any tool outside of the Azure environment, also sensitive data can be stored in environment variables so it can be available inside the pipelines without hardcoding them. This can be very helpful because you will not have any issues importing a repo from outside and also if you have any problem the Azure documentation is very complete and friendly. 
 
-We will assume we use a __bash__ shell environment. Whenever an example script starts with $, it means you should type what is beyond the symbol in your terminal. Sometimes the expected output of a command is shown, to make it easier to identify output information.
+For the Infrastructure as Code (IaC) we used Terraform because is a tool for building, changing, and versioning infrastructure safely and efficiently. In this case it was helpful for automate the creation of the infrastructure resources and to have a control of everything that has been build so every change made can be tracked and safely released. In case of Disaster Recovery scenario you can just change of resource group, create a new service principal and build again the infrastructure with the Terraform code.
 
-If you are using Windows, most of the explanations here could be used in cmd.exe, but you can achieve full compatibility by using [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/install-win10).
+For the Kubernetes package manager we decided to use Helm because it has a big community that is always updating and making new charts to offer an easier way to manage applications in Kubernetes. For this project we use Helm to install Prometheus and Grafana for monitoring the app inside the cluster. These tools are one of the best combo options for monitoring because both are open source and while Prometheus is a robust tool that stores and queries data, Grafana complements visualizing this data so it is possible to identify issues quickly, also this tool can provide you with dashboards that you can personalize to show all the data you want.
 
-*Improvement:* Adapt the explanations and scripts to be able to use them from Windows's cmd.exe or Powershell.
+We decided to use Skaffold because is an innovating tool that is growing everyday and compared to Docker Compose it's more friendly and oriented to Kubernetes. Skaffold offers a variety of benefits for example when you run the Skaffold yaml file it builds the images based on the dockerfile code, then uploads them to a container in this case Azure Container Registry (ACR), then it pulls them to the Kubernetes cluster and deploys them in different pods. For the containers we used Docker because is the most common and used container tool in the industry and it's easier to use it with Skaffold than any other tool.
 
+## Usage  
 ### Contents
 
-* [0. Getting started](./README.md)
-* [1. Prerequisites](./docs/01_prerequisites.md)
-* [2. Initial Azure resources setup](./docs/02_setup_az_sp.md)
-* [3. Provision infrastructure with Terraform](./docs/03_infra_terraform.md)
-* [4. Get credentials](./docs/04_get_credentials.md)
-* [5. Installing Prometheus and Grafana using Helm](./docs/05_helm.md)
-* [6. Deploy microservices with Skaffold](./docs/06_cluster_skaffold.md)
-* [7. Terminate and free resources](./docs/98_free_resources.md)
-* [Appendix: Troubleshooting](./docs/99_troubleshooting.md)
-
----
-[Next step: 1. Prerequisites](./docs/01_prerequisites.md)  
+* [1. Provision infrastructure with Terraform and Azure pipeline](./documentation/infrastructure/infra-pipeline.md)
+* [2. Deploy microservices with Skaffold and Azure pipelines](./documentation/web-app/web-app-pipeline.md)  
