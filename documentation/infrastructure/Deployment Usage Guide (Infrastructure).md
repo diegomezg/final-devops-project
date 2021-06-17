@@ -6,7 +6,7 @@ The first step to follow in this guide is consider to fork the repository:
 https://dev.azure.com/diegogomez0768/Final%20Project/_git/Deployment-App?path=%2F&version=GBmaster&_a=contents
 ```
 
-1. Prerequisites
+## 1. Prerequisites
 
 ### **Install software prerequisites**
 
@@ -21,10 +21,13 @@ You will need to install the following tools:
 
 Use `az login` to log into your Azure account. A new browser window will open where you can finish the login procedure before returning to the terminal. If using a remote terminal or an environment without a browser, an special code and URL will be shown to open in another computer's browser to finish the login procedure.
 
-`$ az login
+```
+az login
+```
 
 Note, we have launched a browser for you to login. For old experience with device code, use "az login --use-device-code"
-You have logged in. Now let us find all the subscriptions to which you have access...
+You have logged in. Now let us find all the subscriptions to which you have access...  
+```
 [
   {
     "cloudName": "AzureCloud",
@@ -38,7 +41,8 @@ You have logged in. Now let us find all the subscriptions to which you have acce
       "type": "user"
     }
   }
-]`
+]
+```
 
 Now your az command line instructions will use your account credentials. We will later need the "id" value shown when you log in.
 
@@ -48,7 +52,7 @@ We will use an storage volume in Azure to store the infrastructure state created
 
 For more information, see: [https://docs.microsoft.com/en-us/azure/terraform/terraform-backend](https://docs.microsoft.com/en-us/azure/terraform/terraform-backend)
 
-`#!/bin/bash
+```#!/bin/bash
 
 RESOURCE_GROUP_NAME=<resource-group-name>
 STORAGE_ACCOUNT_NAME=<storage-account-name>
@@ -66,8 +70,8 @@ az storage container create --name $CONTAINER_NAME --account-name $STORAGE_ACCOU
 echo "storage_account_name: $STORAGE_ACCOUNT_NAME"
 echo "container_name: $CONTAINER_NAME"
 echo "access_key: $ACCOUNT_KEY"`
-
-At the end of the execution, the result environment variables will be shown.
+```
+At the end of the execution, the values of environment variables will be shown.
 
 ### **Create a Key Vault and store secrets**
 
@@ -97,10 +101,14 @@ A Service Principal is like a new user that we create to grant permissions to on
 
 AKS needs a service principal to be able to create virtual machines for the Kubernetes cluster infrastructure.
 
-To create a new Service Principal use the following command, replacing 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX' with your account id shown when you log in with `az login`.
+To create a new Service Principal use the following command, replacing 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX' with your account id shown when you log in with `az login`.  
 
-`$ az ad sp create-for-rbac --role="Contributor" --scopes="/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX" --name <ServPrincipalAKS>
-
+Input:
+```
+az ad sp create-for-rbac --role="Contributor" --scopes="/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX" --name <ServPrincipalAKS>
+```
+Output:
+```
 Creating a role assignment under the scope of "/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"
   Retrying role assignment creation: 1/36
   Retrying role assignment creation: 2/36
@@ -110,8 +118,8 @@ Creating a role assignment under the scope of "/subscriptions/XXXXXXXX-XXXX-XXXX
   "name": "http://azure-cli-XXXX-XX-XX-XX-XX-XX",
   "password": "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX",
   "tenant": "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"
-}`
-
+}
+```
 ### **Save Service Principal id and secret to Key Vault**
 
 Take note of the appId (the id) and the password (the secret) for the service principal just created. We will store them in the Key Vault.
@@ -120,11 +128,15 @@ Take note of the appId (the id) and the password (the secret) for the service pr
 az keyvault secret set --vault-name "<name-keyvault>" --name "spSecret" --value "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"`
 
 Now, when we want to retrieve them and the storage access key to environment variables that Terraform can use, without having the written down in any file, we use:
-
-`TF_VAR_client_id=$(az keyvault secret show --name "spId" --vault-name "<name-keyvault>" --query value -o tsv)
-TF_VAR_client_secret=$(az keyvault secret show --name "spSecret" --vault-name "<name-keyvault>" --query value -o tsv)
+```
+TF_VAR_client_id=$(az keyvault secret show --name "spId" --vault-name "<name-keyvault>" --query value -o tsv)  
+```
+```
+TF_VAR_client_secret=$(az keyvault secret show --name "spSecret" --vault-name "<name-keyvault>" --query value -o tsv)  
+```
+```
 ARM_ACCESS_KEY=$(az keyvault secret show --name "tstateAccessKey" --vault-name "<name-keyvault>" --query value -o tsv)`
-
+```
 Those special variable names are expected by Terraform for those parameters. Remember, for those commands to work, we must have logged in with the Azure CLI first.
 
 ### Provision infrastructure with Terraform
@@ -148,7 +160,7 @@ Change to the `infra` directory. You will find several files and folders:
 
 Following of running the pipeline from the forked repo.
 
-Now in the pipeline we run the commands: 
+Now in the pipeline we run some tasks: 
 
 In the Pipeline first we specify to install the terraform:
 
@@ -190,7 +202,7 @@ task: TerraformTaskV2@2
     backendAzureRmKey: 'terraform.tfstate'
 ```
 
-Then through the pipeline we defined some environment variables needed for establish connection with Azure resources:
+Then through the pipeline we defined some environment variables needed for establish connection with Azure resources and verify credentials:
 
 ```bash
 task: CmdLine@2
@@ -226,7 +238,7 @@ task: TerraformTaskV2@2
 
 The plan will be shown again. The provisioning process will last more than 10 minutes. At the beginning of this process, the plan will be saved on the Azure storage created previously, and the file marked as 'locked', so anybody else using the same plan will be prevented to do changes to infrastructure until you finish.
 
-**You will now have on your Azure account:**
+# **You will now have on your Azure account:**
 
 - An storage account, that holds the rest of the resources
 - An Azure Container Registry to store the images of the microservices containers
@@ -234,4 +246,4 @@ The plan will be shown again. The provisioning process will last more than 10 mi
 - A load balancer assigned to that public IP
 - An Azure Kubernetes Service managed cluster, using the previous load balancer
 
-You could omit the creation of the public IP and load balancer, as those resources would be automatically provisioned for your cluster. But when you provision them in an explicit way, if you later remove the Kubernetes cluster to replace it for a different one, you will maintain the same IP address.
+*You could omit the creation of the public IP and load balancer, as those resources would be automatically provisioned for your cluster. But when you provision them in an explicit way, if you later remove the Kubernetes cluster to replace it for a different one, you will maintain the same IP address.*
