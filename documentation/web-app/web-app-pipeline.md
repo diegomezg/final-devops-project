@@ -3,10 +3,7 @@
 ### * Create a Azure DevOps Service Connection Name, this allow to connect Azure Cloud resources to Azure DevoPS solutions
 
 ## Fork the Hipster Shop repository
-Fork the Hipster Shop repository from Azure Repos:
-```
- https://dev.azure.com/diegogomez0768/Final%20Project/_git/Web%20App
- ```
+Fork the [Web App](https://dev.azure.com/diegogomez0768/Final%20Project/_git/Web%20App) from Azure Repos:
 
  ## After the repo is forked, you must change the ip located in the script.js file:
 

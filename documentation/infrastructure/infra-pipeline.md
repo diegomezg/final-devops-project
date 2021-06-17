@@ -1,12 +1,8 @@
 # Deployment Usage Guide (Infrastructure)
 
-The first step to follow in this guide is consider to fork the repository: 
+The first step to follow in this guide is consider to fork the repository [Infra App](https://dev.azure.com/diegogomez0768/Final%20Project/_git/Deployment-App?path=%2F&version=GBmaster&_a=contents)
 
-```bash
-https://dev.azure.com/diegogomez0768/Final%20Project/_git/Deployment-App?path=%2F&version=GBmaster&_a=contents
-```
-
-## 1. Prerequisites
+## Prerequisites
 
 ### **Install software prerequisites**
 
@@ -15,7 +11,7 @@ You will need to install the following tools:
 - [Azure Command Line Interface (CLI)](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest): To create Azure resources, use Terraform with your Azure account, and retrieve credentials Kubernetes configuration.
 - [Azure Resource Group](https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/manage-resource-groups-portal): You need to create a resource group in Azure.
 
-### **Configure Azure CLI**
+## **Configure Azure CLI**
 
 Use `az login` to log into your Azure account. A new browser window will open where you can finish the login procedure before returning to the terminal. If using a remote terminal or an environment without a browser, an special code and URL will be shown to open in another computer's browser to finish the login procedure.
 
@@ -44,7 +40,7 @@ You have logged in. Now let us find all the subscriptions to which you have acce
 
 Now your az command line instructions will use your account credentials. We will later need the "id" value shown when you log in.
 
-### **Create Storage for Terraform to store plan**
+## **Create Storage for Terraform to store plan**
 
 We will use an storage volume in Azure to store the infrastructure state created with Terraform later. To do this we use the resource group of our co-worker Diego, and inside it, an storage with "team3demodou" name.
 
@@ -71,7 +67,7 @@ echo "access_key: $ACCOUNT_KEY"`
 ```
 At the end of the execution, the values of environment variables will be shown.
 
-### **Create a Key Vault and store secrets**
+## **Create a Key Vault and store secrets**
 
 We will need several secret values stored, but we don't want them to be stored on a file that can be stolen or uploaded to an unsafe place. To store them securely, we will create an Azure Key Vault resource.
 
@@ -93,7 +89,7 @@ Any time later you need to retrieve this value, you can do so after having logge
 az keyvault secret show --name "<AccessKeyname>" --vault-name "<name-keyvault>" --query value -o tsv
 ```
 
-### **Create a Service Principal with the command line**
+## **Create a Service Principal with the command line**
 
 A Service Principal is like a new user that we create to grant permissions to only do what we need it to do. That way we are not using our user with owner role.
 
@@ -118,7 +114,7 @@ Creating a role assignment under the scope of "/subscriptions/XXXXXXXX-XXXX-XXXX
   "tenant": "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"
 }
 ```
-### **Save Service Principal id and secret to Key Vault**
+## **Save Service Principal id and secret to Key Vault**
 
 Take note of the appId (the id) and the password (the secret) for the service principal just created. We will store them in the Key Vault.
 
@@ -137,7 +133,7 @@ ARM_ACCESS_KEY=$(az keyvault secret show --name "tstateAccessKey" --vault-name "
 ```
 Those special variable names are expected by Terraform for those parameters. Remember, for those commands to work, we must have logged in with the Azure CLI first.
 
-### Provision infrastructure with Terraform
+## Provision infrastructure with Terraform
 
 We will store the infrastructure state in the volume storage created previously, so any other person trying to work with this infrastructure will have access to it. Also when executing changes, the state will be locked, preventing other users to try to change infrastructure at the same time.
 
@@ -247,7 +243,7 @@ This is your subscription id.
 This is the Service Principal password.  
 >*Note: This variables must be marked as SECRETS to hide values from other users*
 
-# **You will now have on your Azure account:**
+## **You will now have on your Azure account:**
 
 - An storage account, that holds the rest of the resources
 - An Azure Container Registry to store the images of the microservices containers
